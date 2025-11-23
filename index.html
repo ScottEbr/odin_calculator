@@ -11,24 +11,28 @@
         <h1>Calculator</h1>
     </header>
     <div class="calc-container">
-        <div class="screen"></div>
+        <div class="screen">
+            <div class="screen-mem"></div>
+            <div class="screen-input"></div>
+        </div>
+        <div class="screen-input"></div>
         <div class="btn-container">
             <button class="clear-btn">CE</button>
             <button class="del-btn">DEL</button>
-            <button class="divide-btn">÷</button>
-            <button class="multiply-btn">x</button>
-            <button class="minus-btn">-</button>
-            <button class="plus-btn">+</button>
-            <button class="nine-btn">9</button>
-            <button class="eight-btn">8</button>
-            <button class="seven-btn">7</button>
-            <button class="six-btn">6</button>
-            <button class="five-btn">5</button>
-            <button class="four-btn">4</button>
-            <button class="three-btn">3</button>
-            <button class="two-btn">2</button>
-            <button class="one-btn">1</button>
-            <button class="zero-btn">0</button>
+            <button class="divide-btn" data-operator>÷</button>
+            <button class="multiply-btn" data-operator>x</button>
+            <button class="minus-btn" data-operator>-</button>
+            <button class="plus-btn" data-operator>+</button>
+            <button class="nine-btn" data-number>9</button>
+            <button class="eight-btn" data-number>8</button>
+            <button class="seven-btn" data-number>7</button>
+            <button class="six-btn" data-number>6</button>
+            <button class="five-btn" data-number>5</button>
+            <button class="four-btn" data-number>4</button>
+            <button class="three-btn" data-number>3</button>
+            <button class="two-btn" data-number>2</button>
+            <button class="one-btn" data-number>1</button>
+            <button class="zero-btn" data-number>0</button>
             <button class="decimal-btn">.</button>
             <button class="equal-btn">=</button>
         </div>
