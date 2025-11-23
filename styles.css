@@ -1,0 +1,131 @@
+:root {
+    --primary-100:#0085ff;
+    --primary-200:#69b4ff;
+    --primary-300:#e0ffff;
+    --accent-100:#006fff;
+    --accent-200:#e1ffff;
+    --text-100:#FFFFFF;
+    --text-200:#9e9e9e;
+    --bg-100:#1E1E1E;
+    --bg-200:#2d2d2d;
+    --bg-300:#454545;
+}
+
+
+.clear-btn {grid-area: clear;}
+.del-btn { grid-area: del;}
+.divide-btn { grid-area: divide;}
+.multiply-btn { grid-area: multiply;}
+.minus-btn { grid-area: minus;}
+.plus-btn { grid-area: plus;}
+.nine-btn { grid-area: nine;}
+.eight-btn { grid-area: eight;}
+.seven-btn { grid-area: seven;}
+.six-btn { grid-area: six;}
+.five-btn { grid-area: five;}
+.four-btn { grid-area: four;}
+.three-btn { grid-area: three;}
+.two-btn { grid-area: two;}
+.one-btn { grid-area: one;}
+.zero-btn {grid-area: zero;}
+.decimal-btn { grid-area: decimal;}
+.equal-btn { grid-area: equal;}
+
+.btn-container {
+    display: grid;
+    grid-template-areas:
+    'clear clear del divide'
+    'seven eight nine multiply'
+    'four five six minus'
+    'one two three plus'
+    'zero decimal equal equal';
+    grid-template-columns: 80px 80px 80px 80px;
+    grid-gap: 8px;
+    background-color: var(--bg-100);
+    /* padding: 10px; */
+}
+
+body {
+    background-color: var(--bg-200);
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: var(--bg-200);
+    color: var(--primary-100);
+    font-size: x-large;
+    margin-bottom: 14px;
+    padding: 40px 0px 40px 0px;
+}
+
+.calc-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-100);
+    color: var(--text-100);
+    border-radius: 16px;
+    padding: 24px;
+    border: var(--bg-200);
+    border-width: 1px;
+    border-style: solid;
+    box-shadow:
+        0px 10px 20px rgb(0 0 0 / 0.6);
+        /* 4px 4px 4px rgb(0 0 0 / 0.6); */
+}
+
+.screen {
+    height: 100px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: var(--bg-300);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: var(--bg-300);
+    border-width: 1px;
+    border-style: solid;
+    box-shadow:
+        /* inset -2px -2px 4px rgb(255 255 255 / 0.6), */
+        inset 2px 2px 4px rgb(0 0 0 / 0.6);
+}
+
+.btn-container button {
+    background-color: var(--bg-300);
+    border: none;
+    color: var(--text-100);
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    height: 70px;
+    
+}
+
+.btn-container button:hover {
+    background-color: var(--accent-100);
+    transition: 0.5s ease;
+    box-shadow:
+        inset 2px 2px 3px rgb(255 255 255 / 0.6),
+        inset -2px -2px 3px rgb(0 0 0 / 0.6);
+
+}
+
+.btn-container button:active {
+    background-color: var(--accent-100);
+    box-shadow:
+        inset -2px -2px 3px rgb(255 255 255 / 0.6),
+        inset 2px 2px 3px rgb(0 0 0 / 0.6);
+        
+}
