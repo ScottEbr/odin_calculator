@@ -3,109 +3,176 @@ const operatorBtn = document.querySelectorAll('[data-operator]')
 const input = document.querySelector('.screen-input')
 const mem = document.querySelector('.screen-mem')
 const equal = document.querySelector('.equal-btn')
+const clear = document.querySelector('.clear-btn')
+const backspace = document.querySelector('.del-btn')
+const decimal = document.querySelector('.decimal-btn')
 
-// const calcHandle = new Array(4).fill("")
+var tempInput = 0
+var memFirst = ""
+var operator = ""
+let newEntry = true
 
-const calcHandle = [0, '', '', '', 0]
+// To allow for users to use the calculator in the case of "operand", "operator", "equals" sequence
+let lastOperand = "";
+let lastOperator = "";
 
-// [tempinput, meminput / equal (value), operation, second input(value), newentry=0/1]
-
-// numberBtn.forEach(numberBtn => {
-//     numberBtn.addEventListener("click", () => {
-//         if (calcHandle[0] == '' && calcHandle[3] == 0) {
-//             calcHandle[0] += numberBtn.innerHTML
-//             console.log(calcHandle)
-//             input.innerHTML = calcHandle[0]
-
-//         } else if (calcHandle[0] !== '' && calcHandle[3] == 1) {
-//             calcHandle[0] = ''
-//             calcHandle[0] += numberBtn.innerHTML
-//             console.log(calcHandle)
-//             input.innerHTML = calcHandle[0]
-//             calcHandle[3] = 0
-//         } else {
-//             calcHandle[0] += numberBtn.innerHTML
-//             console.log(calcHandle)
-//             input.innerHTML = calcHandle[0]
-//         }
- 
-//     });
-// });
+let afterEquals = false;
 
 
 numberBtn.forEach(numberBtn => {
     numberBtn.addEventListener("click", () => {
-        if (calcHandle[4] == 0) {
-            calcHandle[0] = ''
-            calcHandle[0] += numberBtn.innerHTML 
-            input.innerHTML = calcHandle[0]
-            calcHandle[4] = 1
-            console.log(calcHandle)
+        
+        if (afterEquals) {clearCalc()}
+        
+        if (newEntry) {
+            tempInput = numberBtn.innerHTML
+            input.innerHTML = tempInput
+
+            newEntry = false
+
         } else {
-            calcHandle[0] += numberBtn.innerHTML 
-            input.innerHTML = calcHandle[0]
-            console.log(calcHandle)
+            tempInput += numberBtn.innerHTML
+            input.innerHTML = tempInput
+
         }
         
     });
 });
+
+// ## Operator buttons currently functional
 
 operatorBtn.forEach(operatorBtn => {
     operatorBtn.addEventListener("click", () => {
 
-        calcHandle[2] = operatorBtn.innerHTML; // need to fix if so it can change the operator in the mem.innerhtml. so this needs to be included when temp memory is blank
+        afterEquals = false;
 
-        if (calcHandle[1] == "" && calcHandle[3] == "" ) {
-            calcHandle[1] = calcHandle[0];
-            calcHandle[0] = "";
+        // First selection of the operator
+        if (memFirst == '' && tempInput !== '') {
+            operator = operatorBtn.innerHTML; 
+            memFirst = tempInput; // moves temp to mem
+            tempInput = ''; // resets temp - however will stay maintain UI out put
 
-            mem.innerHTML = calcHandle[1] + ' ' + calcHandle[2];
-
-            console.log(calcHandle)
-        } else if (calcHandle[1] !== "" && calcHandle[3] == "" ) {
-            calcHandle[3] = calcHandle[0];
-            calcHandle[0] = "";
-            console.log(calcHandle)
-
-        } else {
-            console.log(calcHandle)
+            mem.innerHTML = memFirst + ' ' + operator;
+            return;
         }
+
+        // Allows for change in operator
+        if (memFirst !== '' && tempInput == '') {
+            operator = operatorBtn.innerHTML;
+            mem.innerHTML = memFirst + ' ' + operator;
+            return
+        }
+
+        // Allows for calculation / chained calculation
+        if (memFirst !== '' && tempInput !== '') {
+
+            memFirst = calculation(memFirst, tempInput); 
+
+            operator = operatorBtn.innerHTML;
+            mem.innerHTML = memFirst + ' ' + operator;
+            input.innerHTML = memFirst;
+            return;
+        }
+
+
     });
 });
 
-
-
 equal.addEventListener("click", () => {equalsHandle()});
 
-function equalsHandle() {  
-    
-    // early handle, if user presses equal before their second number. Still to be fixed.
-    if (calcHandle[2] == '' && calcHandle[1] !== '') {
-        calcHandle[2] = calcHandle[0];
+function equalsHandle() {
+
+    // Normal calc
+    if (operator !== '' && tempInput !== '') {
         
-        input.innerHTML = calculation(calcHandle[0],calcHandle[2]);
-        calcHandle[0] = calculation(calcHandle[0],calcHandle[2]);   
-        mem.innerHTML = calcHandle[0] + ' ' + calcHandle[1];
-        calcHandle[3] = 1;
+        mem.innerHTML = memFirst + ' ' + operator + ' ' + input.innerHTML + ' =';
 
+        const a = memFirst;
+        const b = tempInput;
 
-        console.log(calcHandle)
+        lastOperand = b; // storing in case of repeat =
+        lastOperator = operator;
 
-    } else {
-        return
+        memFirst = calculation(memFirst, tempInput); 
+        input.innerHTML = memFirst;
+        afterEquals = true;
+        return;
+    }
+
+    // Where user presses "=" again
+    if (operator !== '' && tempInput == '' && lastOperand !== '') {
+        lastOperator = operator;
+
+        mem.innerHTML = memFirst + ' ' + operator + ' ' + lastOperand + ' ='
+
+        memFirst = calculation(memFirst, lastOperand);
+        input.innerHTML = memFirst;
+        afterEquals = true;
+        return;
+    }
+
+    // Where user presses "=" after operator
+    if (operator !== '' && tempInput == '' && lastOperand == '') {
+        lastOperand = memFirst;
+
+        mem.innerHTML = memFirst + ' ' + operator + ' ' + lastOperand + ' ='
+
+        memFirst = calculation(memFirst, lastOperand);
+        input.innerHTML = memFirst;
+        afterEquals = true;
+        return;    
     }
 }
 
+
 function calculation(a, b) {
-    if (calcHandle[1] == '÷') {
+    newEntry = true;
+    tempInput = '';
+
+    if (operator == '÷') {
         return +a / +b
-    } else if (calcHandle[1] == 'x') {
+    } else if (operator == 'x') {
         return +a * +b
-    } else if (calcHandle[1] == '-') {
+    } else if (operator == '-') {
         return +a - +b
-    } else if (calcHandle[1] == '+') {
+    } else if (operator == '+') {
         return +a + +b
     } else {
         return
     }
+
+}
+
+clear.addEventListener("click", () => {clearCalc()});
+
+function clearCalc() {
+    memFirst = ""
+    operator = ""
+    lastOperand = ""
+    lastOperator = ""
+    mem.innerHTML = ""
+    input.innerHTML = 0
+    tempInput = 0
+    afterEquals = false
+    newEntry = true
+}
+
+backspace.addEventListener("click", () => {backspaceCalc()});
+
+function backspaceCalc() {
+    if (tempInput !== '') {
+        tempInput = tempInput.slice(0, -1)
+        input.innerHTML = tempInput
+    }
+
+}
+
+decimal.addEventListener("click", () => {addDecimal()});
+
+function addDecimal() {
+    if (!tempInput == '' && !tempInput.includes('.')) {
+        tempInput += decimal.innerHTML
+        input.innerHTML = tempInput
+    }
+
 }
