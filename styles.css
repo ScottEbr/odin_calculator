@@ -4,13 +4,16 @@
     --primary-300:#e0ffff;
     --accent-100:#006fff;
     --accent-200:#e1ffff;
+    --accent-comp1-100: #FFA200;
+    --accent-comp2-100: #FF2200;
     --text-100:#FFFFFF;
     --text-200:#9e9e9e;
     --bg-100:#1E1E1E;
+    --bg-150: #252525;
     --bg-200:#2d2d2d;
+    --bg-250: #393939;
     --bg-300:#454545;
 }
-
 
 .clear-btn {grid-area: clear;}
 .del-btn { grid-area: del;}
@@ -42,7 +45,6 @@
     grid-template-columns: 80px 80px 80px 80px;
     grid-gap: 8px;
     background-color: var(--bg-100);
-    /* padding: 10px; */
 }
 
 body {
@@ -80,7 +82,6 @@ header {
     border-style: solid;
     box-shadow:
         0px 10px 20px rgb(0 0 0 / 0.6);
-        /* 4px 4px 4px rgb(0 0 0 / 0.6); */
 }
 
 .screen {
@@ -132,8 +133,30 @@ header {
     
 }
 
+.btn-container [data-operator] {
+    background-color: var(--bg-200);
+}
+
 .btn-container button:hover {
     background-color: var(--accent-100);
+    transition: 0.5s ease;
+    box-shadow:
+        inset 2px 2px 3px rgb(255 255 255 / 0.6),
+        inset -2px -2px 3px rgb(0 0 0 / 0.6);
+
+}
+
+.btn-container .equal-btn:hover {
+    background-color: var(--accent-comp1-100);
+    transition: 0.5s ease;
+    box-shadow:
+        inset 2px 2px 3px rgb(255 255 255 / 0.6),
+        inset -2px -2px 3px rgb(0 0 0 / 0.6);
+
+}
+
+.btn-container .clear-btn:hover {
+    background-color: var(--accent-comp2-100);
     transition: 0.5s ease;
     box-shadow:
         inset 2px 2px 3px rgb(255 255 255 / 0.6),
@@ -147,4 +170,28 @@ header {
         inset -2px -2px 3px rgb(255 255 255 / 0.6),
         inset 2px 2px 3px rgb(0 0 0 / 0.6);
         
+}
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  color: var(--text-100);
+  font-size: 20px;
+  background-color: var(--bg-200);
+}
+
+.github-logo {
+  display: block;
+  max-width: 28px;
+  max-height: 28px;
+  color: var(--primary-light);
+  transition: transform 0.3s ease-in-out;
+}
+
+.github-logo:hover {
+  transform: rotate(360deg) scale(1.2);
 }

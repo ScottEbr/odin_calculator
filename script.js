@@ -16,7 +16,7 @@ let newEntry = true
 let lastOperand = "";
 let lastOperator = "";
 
-let afterEquals = false;
+let afterEquals = false; // Where user inputs number after pressing equals (clears memory and current input)
 
 
 numberBtn.forEach(numberBtn => {
@@ -176,3 +176,23 @@ function addDecimal() {
     }
 
 }
+
+document.addEventListener("keydown", handleKeyboard);
+
+function handleKeyboard(e) {
+    const k = e.key;
+    if (k === "Enter" || k === "=") return equal.click();
+    if (k === "Backspace") return backspace.click();
+    if (k === "Escape") return clear.click();
+    if (k === ".") return decimal.click();
+
+    let numBtn = Array.from(document.querySelectorAll('[data-number]')).find(b => b.textContent.trim() === k);
+    if (numBtn) return numBtn.click();
+
+    const map = { "*": "x", "/": "÷" };
+    const opKey = map[k] || k;
+
+    let opBtn = Array.from(document.querySelectorAll('[data-operator]')).find(b => b.textContent.trim() === opKey);
+    if (opBtn) return opBtn.click();
+}
+
